@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Die from "./Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
+import Navbar from "./NavBar";
 
 export default function App() {
   const [dice, setDice] = useState(() => generateAllNewDice());
@@ -54,7 +55,7 @@ export default function App() {
           )
       );
       setRolling(false); //Then enable the button to re-roll again
-    }, 2000);
+    }, 500);
   }
 
   function hold(id) {
@@ -75,27 +76,30 @@ export default function App() {
   ));
 
   return (
-    <main>
-      {gameWon && <Confetti />}
-      <div aria-live="polite" className="sr-only">
-        {gameWon && (
-          <p>Congratulations! You won! Press "New Game" to start again.</p>
-        )}
-      </div>
-      <h1 className="title">Tenzies</h1>
-      <p className="instructions">
-        Roll until all dice are the same. Click each die to freeze it at its
-        current value between rolls.
-      </p>
-      <div className="dice-container">{diceElements}</div>
-      <button
-        ref={buttonRef}
-        className="roll-dice"
-        onClick={rollDice}
-        disabled={rolling}
-      >
-        {gameWon ? "New Game" : rolling ? "Rolling..." : "Roll"}
-      </button>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        {gameWon && <Confetti />}
+        <div aria-live="polite" className="sr-only">
+          {gameWon && (
+            <p>Congratulations! You won! Press "New Game" to start again.</p>
+          )}
+        </div>
+        <h1 className="title">Tenzies</h1>
+        <p className="instructions">
+          Roll until all dice are the same. Click each die to freeze it at its
+          current value between rolls.
+        </p>
+        <div className="dice-container">{diceElements}</div>
+        <button
+          ref={buttonRef}
+          className="roll-dice"
+          onClick={rollDice}
+          disabled={rolling}
+        >
+          {gameWon ? "New Game" : rolling ? "Rolling..." : "Roll"}
+        </button>
+      </main>
+    </>
   );
 }
